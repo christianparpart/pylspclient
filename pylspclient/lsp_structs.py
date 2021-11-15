@@ -25,6 +25,9 @@ class Position(object):
         self.line = line
         self.character = character
 
+    def __eq__(self, other):
+        return self.line == other.line and self.character == other.character
+
 
 class Range(object):
     def __init__(self, start, end):
@@ -36,6 +39,9 @@ class Range(object):
         """
         self.start = to_type(start, Position)
         self.end = to_type(end, Position)
+
+    def __eq__(self, other):
+        return self.start == other.start and self.end == other.end
 
 
 class Location(object):
@@ -51,6 +57,9 @@ class Location(object):
         """
         self.uri = uri
         self.range = to_type(range, Range)
+
+    def __eq__(self, other):
+        return self.uri == other.uri and self.range == other.range
 
 
 class LocationLink(object):
@@ -75,7 +84,12 @@ class LocationLink(object):
         self.targetRange = to_type(targetRange, Range)
         self.targetSelectionRange = to_type(targetSelectionRange, Range)
 
- 
+    def __eq__(self, other):
+        return (self.originSelectionRange == other.originSelectionRange and
+                self.targetUri == other.targetUri and
+                self.targetRange == other.targetRange and
+                self.targetSelectionRange == other.targetSelectionRange)
+
 class Diagnostic(object):
      def __init__(self, range, severity, code, source, message, relatedInformation):
         """
@@ -97,6 +111,13 @@ class Diagnostic(object):
         self.message = message
         self.relatedInformation = relatedInformation
 
+    def __eq__(self, other):
+        return (self.range == other.range and
+                self.severity == other.severity and
+                self.code == other.code and
+                self.message == other.message and
+                self.relatedInformation == other.relatedInformation)
+
 
 class DiagnosticSeverity(object):
     Error = 1
@@ -114,6 +135,9 @@ class DiagnosticRelatedInformation(object):
         """
         self.location = location
         self.message = message
+
+    def __eq__(self, other):
+        return self.location == other.location and self.message == other.message
 
  
 class Command(object):
