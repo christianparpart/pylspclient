@@ -91,7 +91,7 @@ class LocationLink(object):
                 self.targetSelectionRange == other.targetSelectionRange)
 
 class Diagnostic(object):
-     def __init__(self, range, severity, code, source, message, relatedInformation):
+    def __init__(self, range, severity, code, source, message, relatedInformation):
         """
         Constructs a new Diagnostic instance.
         :param Range range: The range at which the message applies.Resource file.
