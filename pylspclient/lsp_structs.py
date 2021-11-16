@@ -28,6 +28,9 @@ class Position(object):
     def __eq__(self, other):
         return self.line == other.line and self.character == other.character
 
+    def __repr__(self) -> str:
+        return "Position({}:{})".format(self.line, self.character)
+
 
 class Range(object):
     def __init__(self, start, end):
@@ -42,6 +45,9 @@ class Range(object):
 
     def __eq__(self, other):
         return self.start == other.start and self.end == other.end
+
+    def __repr__(self) -> str:
+        return "Range({}..{})".format(self.start, self.end)
 
 
 class Location(object):
@@ -64,6 +70,9 @@ class Location(object):
 
     def __eq__(self, other):
         return self.uri == other.uri and self.range == other.range
+
+    def __repr__(self) -> str:
+        return "Location({}, {})".format(self.uri, self.range)
 
 
 class LocationLink(object):
