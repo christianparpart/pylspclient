@@ -111,17 +111,6 @@ class LspClient(object):
         return [lsp_structs.SymbolInformation(**sym) for sym in result_dict]
 
 
-    def typeDefinition(self, textDocument, position) -> List[lsp_structs.Location]:
-        """
-        The goto type definition request is sent from the client to the server to resolve the type definition location of a symbol at a given text document position.
-
-        :param TextDocumentItem textDocument: The text document.
-        :param Position position: The position inside the text document.
-        """
-        result_dict = self.lsp_endpoint.call_method("textDocument/definition", textDocument=textDocument, position=position)
-        return [lsp_structs.Location(**l) for l in result_dict]
-
-
     def signatureHelp(self, textDocument, position) -> lsp_structs.SignatureHelp:
             """
             The signature help request is sent from the client to the server to request signature information at a given cursor position.            
