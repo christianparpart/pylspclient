@@ -48,6 +48,10 @@ class Location(object):
     """
     Represents a location inside a resource, such as a line inside a text file.
     """
+
+    uri: str
+    range: Range
+
     def __init__(self, uri, range):
         """
         Constructs a new Location instance.

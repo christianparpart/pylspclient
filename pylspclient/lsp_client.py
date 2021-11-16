@@ -69,7 +69,7 @@ class LspClient(object):
         self.lsp_endpoint.send_notification("exit")
 
 
-    def didOpen(self, textDocument):
+    def didOpen(self, textDocument: lsp_structs.TextDocumentIdentifier):
         """
         The document open notification is sent from the client to the server to signal newly opened text documents. The document's truth is
         now managed by the client and the server must not try to read the document's truth using the document's uri. Open in this sense 
@@ -139,7 +139,7 @@ class LspClient(object):
             # TODO: Just return CompletionList, it looks like being the same except for that one boolean member
 
 
-    def declaration(self, textDocument, position):
+    def declaration(self, textDocument: lsp_structs.TextDocumentIdentifier, position: lsp_structs.Position):
             """
             The go to declaration request is sent from the client to the server to resolve the declaration location of a 
             symbol at a given text document position.
@@ -157,7 +157,7 @@ class LspClient(object):
             return [lsp_structs.Location(**l) if "uri" in l else lsp_structs.LocationLink(**l) for l in result_dict]
    
 
-    def definition(self, textDocument, position): # TODO (union type annotation) -> List[lsp_structs.Location]:
+    def definition(self, textDocument: lsp_structs.TextDocumentIdentifier, position: lsp_structs.Position): # TODO (union type annotation) -> List[lsp_structs.Location]:
             """
             The go to definition request is sent from the client to the server to resolve the declaration location of a 
             symbol at a given text document position.
