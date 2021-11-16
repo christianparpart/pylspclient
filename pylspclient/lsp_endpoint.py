@@ -18,6 +18,9 @@ class LspEndpoint(threading.Thread):
 
 
     def handle_result(self, rpc_id, result, error):
+        if not(rpc_id in self.event_dict):
+            # Either rpc_id is None or we don't know this RPC Id. Silently drop.
+            return
         self.response_dict[rpc_id] = (result, error)
         cond = self.event_dict[rpc_id]
         cond.acquire()
