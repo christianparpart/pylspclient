@@ -87,7 +87,7 @@ class LspEndpoint(threading.Thread):
                 self.send_response(rpc_id, None, e)
 
 
-    def send_response(self, id: Union[int, str, None], result: Union[None, Dict[str, Any]], error: Union[None, Dict[str, Any]]):
+    def send_response(self, id: Union[int, str, None], result: Union[None, Dict[str, Any]], error: Union[lsp_structs.ResponseError, None]):
         message_dict = {}
         message_dict["jsonrpc"] = "2.0"
         message_dict["id"] = id
