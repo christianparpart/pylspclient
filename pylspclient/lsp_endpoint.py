@@ -64,7 +64,7 @@ class LspEndpoint(threading.Thread):
                 method = jsonrpc_message.get("method")
                 result = jsonrpc_message.get("result")
                 error = jsonrpc_message.get("error")
-                rpc_id = jsonrpc_message.get("id")
+                rpc_id: Union[int,str,None] = jsonrpc_message.get("id")
                 params = jsonrpc_message.get("params")
 
                 if method:
