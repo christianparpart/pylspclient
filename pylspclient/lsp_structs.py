@@ -401,6 +401,38 @@ class SignatureInformation(object):
         self.documentation = documentation
         self.parameters = [to_type(parameter, ParameterInformation) for parameter in parameters]
 
+class DocumentHighlightKind(enum.Enum):
+    Undefined = 0
+    Text = 1
+    Read = 2
+    Write = 3
+
+class DocumentHighlight(object):
+    """
+    Represents a single document highlight area.
+    """
+
+    range: Range
+    kind: DocumentHighlightKind
+
+    def __init__(self, range, kind):
+        self.range = to_type(range, Range)
+        if kind is None:
+            self.kind = DocumentHighlightKind.Undefined
+        elif kind == 1:
+            self.kind = DocumentHighlightKind.Text
+        elif kind == 2:
+            self.kind = DocumentHighlightKind.Read
+        elif kind == 3:
+            self.kind = DocumentHighlightKind.Write
+        else:
+            self.kind = DocumentHighlightKind.Undefined
+
+    def __eq__(self, other):
+        return self.kind == other.kind and self.range == other.range
+
+    def __repr__(self) -> str:
+        return "DocumentHighlight({}, {})".format(self.kind, self.range)
 
 class SignatureHelp(object):
     """
@@ -517,7 +549,6 @@ class CompletionItem(object):
         self.command = command
         self.data = data
         self.score = score
-
 
 class CompletionItemKind(enum.Enum):
     Text = 1

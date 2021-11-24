@@ -173,3 +173,10 @@ class LspClient(object):
                 return lsp_structs.Location(**result_dict)
 
             return [lsp_structs.Location(**l) if "uri" in l else lsp_structs.LocationLink(**l) for l in result_dict]
+
+    def documentHighlight(self, textDocument: lsp_structs.TextDocumentIdentifier, position: lsp_structs.Position) -> List[lsp_structs.DocumentHighlight]:
+            """
+            Implements textDocument/documentHighlight
+            """
+            result_dict = self.lsp_endpoint.call_method("textDocument/documentHighlight", textDocument=textDocument, position=position)
+            return [ lsp_structs.DocumentHighlight(**x) for x in result_dict ]
