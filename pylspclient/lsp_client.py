@@ -1,7 +1,11 @@
 from pylspclient import lsp_structs
+#from pylspclient import LspEndpoint
 from typing import List
 
 class LspClient(object):
+    # TODO: refactor in a way we can strongly type here
+    #lsp_endpoint: LspEndpoint
+
     def __init__(self, lsp_endpoint):
         """
         Constructs a new LspClient instance.

@@ -1,8 +1,8 @@
 from __future__ import print_function
 import json
-import re
 from pylspclient import lsp_structs
 import threading
+from pprint import pprint
 
 JSON_RPC_REQ_FORMAT = "Content-Length: {json_string_len}\r\n\r\n{json_string}"
 LEN_HEADER = "Content-Length: "
@@ -25,11 +25,20 @@ class JsonRpcEndpoint(object):
     Thread safe JSON RPC endpoint implementation. Responsible to recieve and send JSON RPC messages, as described in the
     protocol. More information can be found: https://www.jsonrpc.org/
     '''
-    def __init__(self, stdin, stdout):
+
+    trace_io: bool
+
+    def _trace(self, message, value):
+        if self.trace_io:
+            print(f"{message}:")
+            pprint(value)
+
+    def __init__(self, stdin, stdout, trace=False):
         self.stdin = stdin
         self.stdout = stdout
         self.read_lock = threading.Lock() 
         self.write_lock = threading.Lock() 
+        self.trace_io = trace
 
     @staticmethod
     def __add_header(json_string):
@@ -50,6 +59,7 @@ class JsonRpcEndpoint(object):
         '''
         json_string = json.dumps(message, cls=MyEncoder)
         jsonrpc_req = self.__add_header(json_string)
+        self._trace('send_request', json_string)
         with self.write_lock:
             self.stdin.write(jsonrpc_req.encode())
             self.stdin.flush()
@@ -91,4 +101,5 @@ class JsonRpcEndpoint(object):
                 raise lsp_structs.ResponseError(lsp_structs.ErrorCodes.ParseError, "Bad header: missing size")
 
             jsonrpc_res = self.stdout.read(message_size).decode("utf-8")
+            self._trace('receive_msg', jsonrpc_res)
             return json.loads(jsonrpc_res)
